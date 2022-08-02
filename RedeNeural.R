@@ -61,14 +61,12 @@ pred1 = ifelse(output > threshold[[1]][1], 1, 0)
 tab1 = table(pred1, termo_documento_treino$target)
 confusionMatrix(tab1, positive = '1', mode = 'everything')
 
-?confusionMatrix
+
 # predicao nos dados de teste
 output_teste = predict(modelo1, termo_documento_teste[,-c(101,102)])
 pred1_teste = ifelse(output_teste > threshold[[1]][1],1,0)
 tab1_teste = table(pred1_teste, termo_documento_teste$target)
 confusionMatrix(tab1_teste, positive = '1', mode = "everything")
-
-# Perfomance ruim
 
 ######### 1 camada oculta com 3 neurônios
 
@@ -100,8 +98,6 @@ pred2_teste = ifelse(output_teste > threshold[[1]][1],1,0)
 tab2_teste = table(pred2_teste, termo_documento_teste$target)
 confusionMatrix(tab2_teste, positive = '1', mode = 'everything')
 
-# Perfomance melhor, porém houve overfitting
-
 ######### 1 camada oculta com 4 neurônios
 
 modelo3 = neuralnet::neuralnet(target~.-id, data = termo_documento_treino,
@@ -131,8 +127,6 @@ output_teste = predict(modelo3, termo_documento_teste[,-c(101,102)])
 pred3_teste = ifelse(output_teste > threshold[[1]][1],1,0)
 tab3_teste = table(pred3_teste, termo_documento_teste$target)
 confusionMatrix(tab3_teste, positive = '1', mode = 'everything')
-
-# Overfitting
 
 ######### 1 camada oculta com 5 neurônios
 
@@ -164,7 +158,6 @@ pred4_teste = ifelse(output_teste > threshold[[1]][1],1,0)
 tab4_teste = table(pred4_teste, termo_documento_teste$target)
 confusionMatrix(tab4_teste, positive = '1', mode = 'everything')
 
-# Overfitting
 
 ######### 2 camadas ocultas com 2 e 1 neurônios
 
@@ -196,7 +189,6 @@ pred5_teste = ifelse(output_teste > threshold[[1]][1],1,0)
 tab5_teste = table(pred5_teste, termo_documento_teste$target)
 confusionMatrix(tab5_teste, positive = '1', mode = 'everything')
 
-# Ruim
 
 ######### 2 camadas ocultas com 1 e 2 neurônios
 
@@ -228,7 +220,6 @@ pred6_teste = ifelse(output_teste > threshold[[1]][1],1,0)
 tab6_teste = table(pred6_teste, termo_documento_teste$target)
 confusionMatrix(tab6_teste, positive = '1', mode = 'everything')
 
-# O melhorzinho, mas acurácia e sensibilidade ainda ruim (65% e 57%)
 
 ######### 2 camadas ocultas com 2 e 2 neurônios
 
@@ -260,7 +251,7 @@ pred7_teste = ifelse(output_teste > threshold[[1]][1],1,0)
 tab7_teste = table(pred7_teste, termo_documento_teste$target)
 confusionMatrix(tab7_teste, positive = '1', mode = 'everything')
 
-# Pior que o anterior
+
 
 ######### 2 camadas ocultas com 2 e 3 neurônios
 
@@ -292,7 +283,6 @@ pred8_teste = ifelse(output_teste > threshold[[1]][1],1,0)
 tab8_teste = table(pred8_teste, termo_documento_teste$target)
 confusionMatrix(tab8_teste, positive = '1', mode = 'everything')
 
-# Ruim (Overfitting)
 
 ######### 2 camadas ocultas com 3 e 2 neurônios
 
@@ -324,50 +314,7 @@ pred9_teste = ifelse(output_teste > threshold[[1]][1],1,0)
 tab9_teste = table(pred9_teste, termo_documento_teste$target)
 confusionMatrix(tab9_teste, positive = '1', mode = 'everything')
 
-# Ruim (Overfitting)
 
-#################################### Bigram ####################################
-
-
-modelo2 = neuralnet::neuralnet(target~.-id, data = termo_documento_bigram_treino,
-                               hidden = 5, rep = 2)
-
-summary(modelo2)
-plot(modelo2)
-
-# erro
-modelo2$result.matrix
-
-# curva roc
-output_bigram = predict(modelo2, termo_documento_bigram_treino[,-c(101,102)])
-head(output)
-roc2 = roc(response = termo_documento_bigram_treino$target, predictor = output_bigram)
-roc2
-plot(roc2)
-threshold2 = coords(roc, 'best', ret = 'threshold')
-threshold2[[1]][1]
-
-# predicao
-pred2 = ifelse(output_bigram > threshold2[[1]][1], 1, 0)
-tab2 = table(pred2, termo_documento_bigram_treino$target)
-confusionMatrix(tab2, positive = '1')
-
-# predicao nos dados de teste
-output_bigram_teste = predict(modelo2, termo_documento_bigram_teste[,-c(101,102)])
-pred2_teste = ifelse(output_bigram_teste > threshold2[[1]][1],1,0)
-tab2_teste = table(pred2_teste, termo_documento_bigram_teste$target)
-confusionMatrix(tab2_teste, positive = '1')
-
-# OVERFITTING (nos dados de teste, previu todos como classe 1)
-
-
-
-
-
-
-
-summary(modelo6)
-plot(modelo6)
 
 
 
